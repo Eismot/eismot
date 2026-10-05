@@ -89,4 +89,3 @@ jobs:
           if [ -f lychee/local-links.md ]; then
             cat lychee/local-links.md >> "$GITHUB_STEP_SUMMARY"
           fi
-
