@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="320" height="56" viewBox="0 0 320 56" role="img" aria-label="&gt; QUESTION">
-  <g font-family="Consolas, 'Liberation Mono', monospace" fill="#7d4e00">
-    <g font-size="14" fill-opacity=".6">
-      <text x="8" y="14" textLength="304" lengthAdjust="spacingAndGlyphs">┌────────────────────────────────────┐</text>
-      <text x="8" y="34">│</text>
-      <text x="304" y="34">│</text>
-      <text x="8" y="52" textLength="304" lengthAdjust="spacingAndGlyphs">└────────────────────────────────────┘</text>
+    <g font-family="Consolas, 'Liberation Mono', monospace" fill="#7d4e00">
+      <g font-size="14" fill-opacity=".6">
+        <text x="8" y="14" textLength="304" lengthAdjust="spacingAndGlyphs">┌────────────────────────────────────┐</text>
+        <text x="8" y="34">│</text>
+        <text x="304" y="34">│</text>
+        <text x="8" y="52" textLength="304" lengthAdjust="spacingAndGlyphs">└────────────────────────────────────┘</text>
+      </g>
+      <text x="24" y="36" font-size="20">&gt; QUESTION</text>
+      <text x="286" y="36" font-size="20" fill-opacity=".65">▌</text>
     </g>
-    <text x="24" y="36" font-size="20">&gt; QUESTION</text>
-    <text x="286" y="36" font-size="20" fill-opacity=".65">▌</text>
-  </g>
-</svg>
+  </svg>

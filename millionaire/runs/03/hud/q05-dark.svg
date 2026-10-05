@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="112" viewBox="0 0 720 112" role="img" aria-labelledby="title desc">
+  <title id="title">Question 05 of 15</title>
+  <desc id="desc">Playing for $1,000. Current bank $500. Guaranteed on a miss $0. 4 rounds cleared.</desc>
+  <g font-family="Consolas, 'Liberation Mono', monospace">
+    <g font-size="12" fill="#9be9a8" fill-opacity=".55">
+      <text x="16" y="14" textLength="688" lengthAdjust="spacingAndGlyphs">┌─ SESSION ──────────────────────────────────────────────────────────┐</text>
+      <text x="16" y="107" textLength="688" lengthAdjust="spacingAndGlyphs">└───────────────────────────────────────────────────────────────────┘</text>
+    </g>
+    <g font-size="13" fill="#a2b6a8">
+      <text x="32" y="30">QUESTION</text>
+      <text x="180" y="30">PLAYING FOR</text>
+      <text x="380" y="30">BANK</text>
+      <text x="560" y="30">SAFETY NET</text>
+    </g>
+    <g font-size="20" fill="#9be9a8">
+      <text x="32" y="62">05 / 15</text>
+      <text x="180" y="62">$1,000</text>
+      <text x="380" y="62">$500</text>
+      <text x="560" y="62">$0</text>
+    </g>
+  </g>
+  <path fill="#9be9a8" d="M32 88h40v4h-40z"/>
+  <path fill="#9be9a8" d="M76 88h40v4h-40z"/>
+  <path fill="#9be9a8" d="M120 88h40v4h-40z"/>
+  <path fill="#9be9a8" d="M164 88h40v4h-40z"/>
+  <path fill="#f3d889" d="M208 88h40v4h-40z"/>
+  <path fill="#304637" d="M252 88h40v4h-40z"/>
+  <path fill="#304637" d="M296 88h40v4h-40z"/>
+  <path fill="#304637" d="M340 88h40v4h-40z"/>
+  <path fill="#304637" d="M384 88h40v4h-40z"/>
+  <path fill="#304637" d="M428 88h40v4h-40z"/>
+  <path fill="#304637" d="M472 88h40v4h-40z"/>
+  <path fill="#304637" d="M516 88h40v4h-40z"/>
+  <path fill="#304637" d="M560 88h40v4h-40z"/>
+  <path fill="#304637" d="M604 88h40v4h-40z"/>
+  <path fill="#304637" d="M648 88h40v4h-40z"/>
+</svg>

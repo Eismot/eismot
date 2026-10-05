@@ -11,6 +11,7 @@
     "build:history": "node scripts/build-millionaire.mjs --pack=history",
     "check": "node scripts/build-millionaire.mjs --check",
     "check:history": "node scripts/build-millionaire.mjs --pack=history --check",
+    "plan": "node scripts/build-millionaire.mjs --plan",
     "test": "node --test scripts/trivia.test.mjs"
   }
 }

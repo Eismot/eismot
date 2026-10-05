@@ -1,0 +1,55 @@
+{
+  "seed": "readme-trivia-v1",
+  "runs": [
+    {
+      "id": "01",
+      "questions": [
+        "git-status", "sql-where", "web-information-problem",
+        "cpp-simula-influence", "c-ancestry", "null-pointer-access",
+        "trusting-trust-source", "cfront-backend", "python-amoeba",
+        "c-declarations-mirror-use", "paxos-origin", "trusting-trust-bootstrap",
+        "lamport-state-machines", "bakery-overlapping-reads", "lisp-executable-notation"
+      ]
+    },
+    {
+      "id": "02",
+      "questions": [
+        "cpp-original-name", "python-name", "fortran-efficiency",
+        "kay-object-metaphors", "git-revert", "fixed-clock",
+        "kay-oop-definition", "lovelace-music", "idempotent-consumer",
+        "go-compiler-translation", "lamport-causal-order", "b-byte-addressing",
+        "c-bitwise-precedence", "lisp-reference-count-bits", "c-array-representation"
+      ]
+    },
+    {
+      "id": "03",
+      "questions": [
+        "http-not-found", "git-status", "sql-where",
+        "lovelace-bernoulli", "database-unique", "cpp-classes-without-hierarchy",
+        "dijkstra-original-title", "row-major-locality", "byzantine-aircraft",
+        "cap-partition", "cpp-data-race", "dijkstra-nonnegative",
+        "aba-history", "lamport-state-machines", "bakery-overlapping-reads"
+      ]
+    },
+    {
+      "id": "04",
+      "questions": [
+        "web-information-problem", "cpp-original-name", "python-name",
+        "python-abc-indentation", "javascript-const", "transaction-atomicity",
+        "cpp-original-problem", "trusting-trust-source", "cfront-backend",
+        "c-increment-myth", "c-declarations-mirror-use", "paxos-origin",
+        "lisp-executable-notation", "c-bitwise-precedence", "lisp-reference-count-bits"
+      ]
+    },
+    {
+      "id": "05",
+      "questions": [
+        "fortran-efficiency", "http-not-found", "git-status",
+        "analytical-engine-jacquard", "cpp-simula-influence", "c-ancestry",
+        "python-amoeba", "kay-oop-definition", "lovelace-music",
+        "trusting-trust-bootstrap", "go-compiler-translation", "lamport-causal-order",
+        "c-array-representation", "aba-history", "lamport-state-machines"
+      ]
+    }
+  ]
+}

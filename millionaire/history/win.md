@@ -2,10 +2,10 @@
 
 **15 / 15. Final prize: $1,000,000**
 
-## Final answer: B / Composing elaborate pieces of music
+## Final answer: C / Arrays embedded in structures had no convenient place for a separately initialized base pointer
 
-In Note A, Lovelace suggests that if relationships of pitched sounds could be expressed and adapted to the engine's operations, it might compose music. This is a conditional argument about representing non-numeric subjects, not evidence that the proposed engine actually composed anything. The striking idea is the separation between a symbol's physical representation and what that symbol can stand for. Source: Lovelace's translator's notes to Menabrea's Sketch of the Analytical Engine, Note A, Fourmilab transcription.
+Earlier array semantics materialized a pointer cell. Adding arrays inside structures raised storage and initialization problems. Ritchie instead generated the pointer when an array appeared in an expression. Modern C retains array-to-pointer conversion with specified exceptions; arrays and pointers are still distinct types.
 
-[Source](https://www.fourmilab.ch/babbage/sketch.html)
+[Source](https://www.nokia.com/bell-labs/about/dennis-m-ritchie/chist.html)
 
 [Restart](q01.md) / [Games](../../README.md)

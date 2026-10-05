@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 
 export const letters = ['A', 'B', 'C', 'D'];
+export const prizes = [100, 200, 300, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000, 500000, 1000000];
+export const tierForRound = index => Math.floor(index / 3) + 1;
 export const money = amount => `$${amount.toLocaleString('en-US')}`;
 export const questionFile = index => `q${String(index + 1).padStart(2, '0')}.md`;
 export const safetyNet = completed => completed >= 10 ? 32000 : completed >= 5 ? 1000 : 0;
@@ -30,6 +33,71 @@ export function validateOptions(question, label = 'Question') {
   assert(options.every(option => typeof option === 'string' && option.trim().length > 0),
     `${label}: options must be nonempty strings`);
   assert.equal(new Set(options.map(option => option.trim())).size, 4, `${label}: duplicate options`);
+}
+
+export function validateBank(bank) {
+  assert(Array.isArray(bank) && bank.length > 0, 'Question bank must be a nonempty array');
+  const ids = new Set();
+  for (const question of bank) {
+    assert(typeof question.id === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(question.id), 'Question needs a stable kebab-case ID');
+    assert(!ids.has(question.id), `Duplicate question ID: ${question.id}`);
+    ids.add(question.id);
+    assert(Number.isInteger(question.difficulty) && question.difficulty >= 1 && question.difficulty <= 5,
+      `${question.id}: difficulty must be an integer from 1 to 5`);
+    assert(!Object.hasOwn(question, 'prize'), `${question.id}: prizes belong to rounds, not questions`);
+    validateOptions(question, question.id);
+    for (const field of ['topic', 'category', 'question', 'hint', 'explanation', 'reference']) {
+      assert(typeof question[field] === 'string' && question[field].trim().length > 0, `${question.id}: missing ${field}`);
+    }
+    assert.equal(new URL(question.reference).protocol, 'https:', `${question.id}: HTTPS reference required`);
+    assert([...Object.values(question.options), question.topic, question.question, question.hint, question.explanation, question.category]
+      .every(text => !/[\r\n<>\[\]|]/.test(text)), `${question.id}: unsupported Markdown characters`);
+  }
+  for (let difficulty = 1; difficulty <= 5; difficulty++) {
+    assert(bank.filter(question => question.difficulty === difficulty).length >= 3, `Tier ${difficulty} needs at least three questions`);
+  }
+}
+
+export function planRuns(bank, seed) {
+  validateBank(bank);
+  assert(typeof seed === 'string' && seed.trim().length > 0, 'A nonempty run seed is required');
+  const decks = Array.from({ length: 5 }, (_, tierIndex) => {
+    const ranked = bank.filter(question => question.difficulty === tierIndex + 1).map(question => ({
+      question, rank: createHash('sha256').update(`${seed}:${question.id}`).digest('hex'),
+    })).sort((left, right) => left.rank < right.rank ? -1 : left.rank > right.rank ? 1 : left.question.id.localeCompare(right.question.id));
+    const deck = [];
+    while (ranked.length > 0) {
+      const differentTopic = ranked.findIndex(entry => entry.question.topic !== deck.at(-1)?.topic);
+      deck.push(ranked.splice(Math.max(0, differentTopic), 1)[0].question);
+    }
+    return deck;
+  });
+  const count = Math.max(...decks.map(deck => Math.ceil(deck.length / 3)));
+  return Array.from({ length: count }, (_, runIndex) => ({
+    id: String(runIndex + 1).padStart(2, '0'),
+    questions: decks.flatMap(deck => Array.from({ length: 3 }, (_, offset) => deck[(runIndex * 3 + offset) % deck.length].id)),
+  }));
+}
+
+export function validateRuns(bank, runs) {
+  validateBank(bank);
+  assert(Array.isArray(runs) && runs.length > 0, 'At least one run required');
+  const byId = new Map(bank.map(question => [question.id, question]));
+  const used = new Set();
+  const runIds = new Set();
+  for (const run of runs) {
+    assert(typeof run.id === 'string' && /^\d{2}$/.test(run.id), 'Run ID must contain two digits');
+    assert(!runIds.has(run.id), `Duplicate run ID: ${run.id}`);
+    runIds.add(run.id);
+    assert(Array.isArray(run.questions) && run.questions.length === 15, `Run ${run.id}: exactly 15 questions required`);
+    assert.equal(new Set(run.questions).size, 15, `Run ${run.id}: repeated question`);
+    for (const [index, id] of run.questions.entries()) {
+      assert(byId.has(id), `Run ${run.id}: unknown question ${id}`);
+      assert.equal(byId.get(id).difficulty, tierForRound(index), `Run ${run.id}: wrong tier at round ${index + 1}`);
+      used.add(id);
+    }
+  }
+  assert.equal(used.size, bank.length, 'Every bank question must appear in at least one run');
 }
 
 export function renderAnswers(question, targets, prefix) {

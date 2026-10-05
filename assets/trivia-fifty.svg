@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="160" height="56" viewBox="0 0 160 56" role="img" aria-label="50:50">
-  <g font-family="Consolas, 'Liberation Mono', monospace" fill="#116329">
-    <g font-size="14" fill-opacity=".6">
-      <text x="8" y="14" textLength="144" lengthAdjust="spacingAndGlyphs">┌────────────────┐</text>
-      <text x="8" y="34">│</text>
-      <text x="144" y="34">│</text>
-      <text x="8" y="52" textLength="144" lengthAdjust="spacingAndGlyphs">└────────────────┘</text>
+    <g font-family="Consolas, 'Liberation Mono', monospace" fill="#116329">
+      <g font-size="14" fill-opacity=".6">
+        <text x="8" y="14" textLength="144" lengthAdjust="spacingAndGlyphs">┌────────────────┐</text>
+        <text x="8" y="34">│</text>
+        <text x="144" y="34">│</text>
+        <text x="8" y="52" textLength="144" lengthAdjust="spacingAndGlyphs">└────────────────┘</text>
+      </g>
+      <text x="24" y="36" font-size="26">50:50</text>
+      <text x="126" y="36" font-size="20" fill-opacity=".65">▌</text>
     </g>
-    <text x="24" y="36" font-size="26">50:50</text>
-    <text x="126" y="36" font-size="20" fill-opacity=".65">▌</text>
-  </g>
-</svg>
+  </svg>
