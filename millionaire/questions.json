@@ -260,7 +260,12 @@
     "topic": "python",
     "category": "Python / naming",
     "question": "What inspired Guido van Rossum's choice of the name Python?",
-    "options": { "A": "An Amsterdam zoo exhibit", "B": "Monty Python's Flying Circus", "C": "A compiler-project acronym", "D": "A science-fiction character" },
+    "options": {
+      "A": "An Amsterdam zoo exhibit",
+      "B": "Monty Python's Flying Circus",
+      "C": "A compiler-project acronym",
+      "D": "A science-fiction character"
+    },
     "correct": "B",
     "hint": "He was reading published comedy scripts.",
     "explanation": "The official Python FAQ says van Rossum was reading scripts from Monty Python's Flying Circus and wanted a short, distinctive, slightly mysterious name.",
@@ -272,7 +277,12 @@
     "topic": "analytical-engine",
     "category": "Lovelace / read the notes",
     "question": "Lovelace's Note G supplies a detailed table of operations for the proposed Analytical Engine. What does that example compute?",
-    "options": { "A": "Bernoulli numbers", "B": "Prime numbers", "C": "Logarithms", "D": "Trigonometric tables" },
+    "options": {
+      "A": "Bernoulli numbers",
+      "B": "Prime numbers",
+      "C": "Logarithms",
+      "D": "Trigonometric tables"
+    },
     "correct": "A",
     "hint": "The note names a particular family of numbers used in mathematical analysis.",
     "explanation": "Note G explicitly introduces a computation of Bernoulli numbers and tracks operations and variables. It describes a proposed computation, not a program reported to have run. This does not require settling the contested label 'first programmer'.",
@@ -284,7 +294,12 @@
     "topic": "c",
     "category": "C / family tree",
     "question": "In Dennis Ritchie's account, which sequence follows C's direct language ancestry?",
-    "options": { "A": "Pascal, then B, then C", "B": "BCPL, then C, then B", "C": "ALGOL 68, then Pascal, then C", "D": "BCPL, then B, then C" },
+    "options": {
+      "A": "Pascal, then B, then C",
+      "B": "BCPL, then C, then B",
+      "C": "ALGOL 68, then Pascal, then C",
+      "D": "BCPL, then B, then C"
+    },
     "correct": "D",
     "hint": "Thompson's language sits between Richards's and Ritchie's.",
     "explanation": "Ritchie traces C through Ken Thompson's B to Martin Richards's BCPL. Other languages also influenced C, but this is the direct line of development.",
@@ -296,7 +311,12 @@
     "topic": "program-design",
     "category": "Dijkstra / before considered harmful",
     "question": "What title appears on Dijkstra's archived original typescript of the publication famous as Go To Statement Considered Harmful?",
-    "options": { "A": "A Case against the GO TO Statement", "B": "Notes on Structured Programming", "C": "The Humble Programmer", "D": "On the Reliability of Programs" },
+    "options": {
+      "A": "A Case against the GO TO Statement",
+      "B": "Notes on Structured Programming",
+      "C": "The Humble Programmer",
+      "D": "On the Reliability of Programs"
+    },
     "correct": "A",
     "hint": "The manuscript makes a case rather than using the later formula.",
     "explanation": "The University of Texas archive labels EWD215 'A Case against the GO TO Statement' and identifies its publication under the better-known title. Its argument concerns understanding dynamic execution from static text, not the speed of jumps.",
@@ -308,7 +328,12 @@
     "topic": "compilers",
     "category": "Go / bootstrapping",
     "question": "For Go 1.5, how did the main gc compiler transition from C to Go, according to the project's FAQ?",
-    "options": { "A": "A new implementation was written from the specification", "B": "Its C implementation was translated automatically into Go", "C": "The implementation was hand-translated without automated translation", "D": "It was replaced by the separate gccgo compiler" },
+    "options": {
+      "A": "A new implementation was written from the specification",
+      "B": "Its C implementation was translated automatically into Go",
+      "C": "The implementation was hand-translated without automated translation",
+      "D": "It was replaced by the separate gccgo compiler"
+    },
     "correct": "B",
     "hint": "Tooling carried the existing implementation across.",
     "explanation": "The Go FAQ says the gc compiler was originally written in C and translated automatically into Go for Go 1.5. This is a self-hosting milestone, not evidence that the original compiler was written in Go. See 'What compiler technology is used to build the compilers?'.",
@@ -320,7 +345,12 @@
     "topic": "lisp",
     "category": "Lisp / hardware-shaped choices",
     "question": "Why does McCarthy's Lisp history describe reference counting as infeasible without drastically changing its list representation?",
-    "options": { "A": "The machine could not add integers", "B": "All lists were required to be immutable", "C": "Only six scattered bits remained in a word for counts", "D": "Objects were forbidden from sharing storage" },
+    "options": {
+      "A": "The machine could not add integers",
+      "B": "All lists were required to be immutable",
+      "C": "Only six scattered bits remained in a word for counts",
+      "D": "Objects were forbidden from sharing storage"
+    },
     "correct": "C",
     "hint": "The limitation was in the layout of a machine word.",
     "explanation": "McCarthy says shared list structures would require reference counts, but only six bits remained in separated parts of a word. The team instead marked accessible storage and reclaimed unmarked storage. This was a representation constraint, not a universal rejection of reference counting.",
@@ -332,7 +362,12 @@
     "topic": "c",
     "category": "C / dismantling a good story",
     "question": "What evidence in Ritchie's history undermines the story that the PDP-11's addressing modes inspired C's ++ and --?",
-    "options": { "A": "C originally spelled both operators as words", "B": "The PDP-11 had no increment instructions", "C": "Both operators arrived after C standardization", "D": "The operators existed in B before the PDP-11 existed" },
+    "options": {
+      "A": "C originally spelled both operators as words",
+      "B": "The PDP-11 had no increment instructions",
+      "C": "Both operators arrived after C standardization",
+      "D": "The operators existed in B before the PDP-11 existed"
+    },
     "correct": "D",
     "hint": "Compare the chronology of the language and the machine.",
     "explanation": "Ritchie explicitly says ++ and -- appeared in B before the PDP-11. He discusses PDP-7 auto-increment cells and compact translations as possible motivations without establishing one certain cause.",
@@ -344,7 +379,12 @@
     "topic": "lisp",
     "category": "Lisp / notation that stuck",
     "question": "According to McCarthy, what helped Lisp's list-based program notation displace the planned FORTRAN-like M-notation?",
-    "options": { "A": "Russell hand-coded eval, making the list representation executable", "B": "M-notation was formally dropped before any interpreter work", "C": "List syntax was standardized before an interpreter was considered", "D": "A complete M-notation implementation failed performance benchmarks" },
+    "options": {
+      "A": "Russell hand-coded eval, making the list representation executable",
+      "B": "M-notation was formally dropped before any interpreter work",
+      "C": "List syntax was standardized before an interpreter was considered",
+      "D": "A complete M-notation implementation failed performance benchmarks"
+    },
     "correct": "A",
     "hint": "A mathematical description became a practical interpreter.",
     "explanation": "McCarthy describes M-expressions as the intended notation. S. R. Russell recognized that eval could serve as an interpreter and hand-coded it. The executable list form took hold, while the planned switch to M-notation receded rather than being formally abandoned.",
@@ -356,7 +396,12 @@
     "topic": "analytical-engine",
     "category": "Lovelace / beyond calculation",
     "question": "In Note A, what non-numeric possibility does Lovelace explicitly discuss, provided its relationships could be represented for the Analytical Engine?",
-    "options": { "A": "Choosing theories without supplied rules", "B": "Composing elaborate pieces of music", "C": "Measuring stars without observational input", "D": "Understanding speech without symbolic representation" },
+    "options": {
+      "A": "Choosing theories without supplied rules",
+      "B": "Composing elaborate pieces of music",
+      "C": "Measuring stars without observational input",
+      "D": "Understanding speech without symbolic representation"
+    },
     "correct": "B",
     "hint": "The example involves pitched sounds and their relationships.",
     "explanation": "Lovelace conditionally suggests composing music if relationships of pitched sounds could be expressed and adapted to the engine's operations. This is not evidence of music actually being composed by the proposed machine.",
@@ -368,7 +413,12 @@
     "topic": "cpp",
     "category": "C++ / original identity",
     "question": "What was C++ originally called?",
-    "options": { "A": "C with Classes", "B": "Portable C", "C": "Concurrent C", "D": "C with Modules" },
+    "options": {
+      "A": "C with Classes",
+      "B": "Portable C",
+      "C": "Concurrent C",
+      "D": "C with Modules"
+    },
     "correct": "A",
     "hint": "The name described the addition to C directly.",
     "explanation": "Stroustrup identifies C with Classes as the original name. Rick Mascitti later suggested C++, using C's increment operator in the name.",
@@ -380,7 +430,12 @@
     "topic": "cpp",
     "category": "C++ / borrowed ideas",
     "question": "According to Stroustrup, which language supplied C++'s original object-oriented concepts?",
-    "options": { "A": "Smalltalk", "B": "Prolog", "C": "Simula", "D": "Fortran" },
+    "options": {
+      "A": "Smalltalk",
+      "B": "Prolog",
+      "C": "Simula",
+      "D": "Fortran"
+    },
     "correct": "C",
     "hint": "Stroustrup wanted its styles alongside efficient systems programming.",
     "explanation": "Stroustrup explicitly traces C++'s object-oriented concepts to Simula rather than Smalltalk. This identifies a design influence, not a single universal definition of object orientation.",
@@ -392,7 +447,12 @@
     "topic": "cpp",
     "category": "C++ / design pressure",
     "question": "What systems problem does Stroustrup identify as the initial work behind C++?",
-    "options": { "A": "Replacing relational databases with object storage", "B": "Distributing operating-system facilities across a network", "C": "Building a Smalltalk-compatible desktop environment", "D": "Removing pointers from numerical programs" },
+    "options": {
+      "A": "Replacing relational databases with object storage",
+      "B": "Distributing operating-system facilities across a network",
+      "C": "Building a Smalltalk-compatible desktop environment",
+      "D": "Removing pointers from numerical programs"
+    },
     "correct": "B",
     "hint": "The problem involved systems facilities spanning computers.",
     "explanation": "Stroustrup says his initial work involved distributing operating-system facilities across a network. He sought Simula-style program organization with the efficiency and flexibility needed for systems programming.",
@@ -404,7 +464,12 @@
     "topic": "compilers",
     "category": "Cfront / compiler pipelines",
     "question": "After checking a C++ program's syntax and semantics, what did Cfront produce for its backend?",
-    "options": { "A": "A Smalltalk image", "B": "Java virtual-machine bytecode", "C": "A serialized abstract syntax tree for the runtime", "D": "C source code for a C compiler" },
+    "options": {
+      "A": "A Smalltalk image",
+      "B": "Java virtual-machine bytecode",
+      "C": "A serialized abstract syntax tree for the runtime",
+      "D": "C source code for a C compiler"
+    },
     "correct": "D",
     "hint": "It reused an existing compilation ecosystem.",
     "explanation": "Cfront performed C++ syntax and semantic checking and emitted C. The C compiler acted as a backend; emitting C did not mean delegating C++ type checking to it.",
@@ -416,7 +481,12 @@
     "topic": "program-design",
     "category": "Objects / different traditions",
     "question": "In his published correspondence with Stefan Ram, what does Alan Kay emphasize in his personal definition of object-oriented programming?",
-    "options": { "A": "Class inheritance, shared mutable data, and early binding", "B": "Relational tables, joins, and declarative constraints", "C": "Messaging, protected local state, and extreme late binding", "D": "Pure functions, immutable values, and no local state" },
+    "options": {
+      "A": "Class inheritance, shared mutable data, and early binding",
+      "B": "Relational tables, joins, and declarative constraints",
+      "C": "Messaging, protected local state, and extreme late binding",
+      "D": "Pure functions, immutable values, and no local state"
+    },
     "correct": "C",
     "hint": "Think about how independent objects communicate.",
     "explanation": "Kay describes his own meaning of OOP in terms of messaging, local retention and protection of state-process, and extreme late binding. The attribution matters: this is his conception, not a claim that every OO language or textbook uses the same definition.",
@@ -428,7 +498,12 @@
     "topic": "program-design",
     "category": "Objects / inspiration",
     "question": "Which two metaphors does Alan Kay describe for objects in his original conception of OOP?",
-    "options": { "A": "Biological cells and computers communicating over a network", "B": "Spreadsheet cells and rows in relational tables", "C": "Assembly instructions and registers in a processor", "D": "Folders and documents in a hierarchical file system" },
+    "options": {
+      "A": "Biological cells and computers communicating over a network",
+      "B": "Spreadsheet cells and rows in relational tables",
+      "C": "Assembly instructions and registers in a processor",
+      "D": "Folders and documents in a hierarchical file system"
+    },
     "correct": "A",
     "hint": "Both suggest independent units interacting through communication.",
     "explanation": "Kay recalls thinking of objects as biological cells or individual computers on a network, communicating only through messages. The question concerns his stated inspiration, not a required implementation architecture.",
@@ -440,7 +515,12 @@
     "topic": "cpp",
     "category": "C++ / classes are not hierarchies",
     "question": "Does defining and using a C++ class necessarily require an inheritance hierarchy?",
-    "options": { "A": "Yes, every class must derive from a root object", "B": "Yes, every class must provide a virtual function", "C": "Yes, except when the class is a template", "D": "No, a class can define a concrete type without inheritance" },
+    "options": {
+      "A": "Yes, every class must derive from a root object",
+      "B": "Yes, every class must provide a virtual function",
+      "C": "Yes, except when the class is a template",
+      "D": "No, a class can define a concrete type without inheritance"
+    },
     "correct": "D",
     "hint": "A value type does not need a base class.",
     "explanation": "Stroustrup distinguishes concrete classes from hierarchy-based object-oriented programming. C++ classes can organize data and operations without any inheritance or virtual functions.",
@@ -452,7 +532,12 @@
     "topic": "compilers",
     "category": "Fortran / overcoming skepticism",
     "question": "What skepticism did Fortran's optimizing compiler help overcome?",
-    "options": { "A": "That scientific calculations could use computers at all", "B": "That compiled high-level code could compete with hand-written machine code", "C": "That source code could be stored on punched cards", "D": "That a processor could perform floating-point arithmetic" },
+    "options": {
+      "A": "That scientific calculations could use computers at all",
+      "B": "That compiled high-level code could compete with hand-written machine code",
+      "C": "That source code could be stored on punched cards",
+      "D": "That a processor could perform floating-point arithmetic"
+    },
     "correct": "B",
     "hint": "Programmer convenience was not enough if the generated program ran too slowly.",
     "explanation": "IBM describes skeptics who doubted that compiled high-level programs could be as efficient as hand-crafted machine code. The Fortran team's optimizing compiler produced code close enough to hand-written performance to help change that perception. This does not assert that generated code always beats hand-written code.",
@@ -464,7 +549,12 @@
     "topic": "web",
     "category": "The Web / an information problem",
     "question": "What practical problem does Berners-Lee's original CERN hypertext proposal address?",
-    "options": { "A": "Encrypting all intercontinental telephone calls", "B": "Replacing particle-detector electronics with browsers", "C": "Finding and preserving information about evolving projects and their relationships", "D": "Creating a centralized approval process for every published document" },
+    "options": {
+      "A": "Encrypting all intercontinental telephone calls",
+      "B": "Replacing particle-detector electronics with browsers",
+      "C": "Finding and preserving information about evolving projects and their relationships",
+      "D": "Creating a centralized approval process for every published document"
+    },
     "correct": "C",
     "hint": "Documents could exist yet be impossible to find when people or projects changed.",
     "explanation": "The proposal describes lost or hard-to-find project information, staff turnover, and changing relationships among people, software, hardware, and documents. Linked information was intended to grow with that environment rather than force it into one fixed hierarchy.",
@@ -476,7 +566,12 @@
     "topic": "python",
     "category": "Python / beyond shell commands",
     "question": "Why did Python's creator want an extensible scripting language while working with the Amoeba operating system?",
-    "options": { "A": "To access Amoeba system calls beyond what shell commands exposed", "B": "To replace Amoeba's kernel with an interpreted implementation", "C": "To prohibit extensions written in compiled languages", "D": "To run every program inside a web browser" },
+    "options": {
+      "A": "To access Amoeba system calls beyond what shell commands exposed",
+      "B": "To replace Amoeba's kernel with an interpreted implementation",
+      "C": "To prohibit extensions written in compiled languages",
+      "D": "To run every program inside a web browser"
+    },
     "correct": "A",
     "hint": "The desired scripts needed access to the operating system's own interfaces.",
     "explanation": "The Python FAQ explains that Amoeba system calls were not easily accessible from shell scripts. Van Rossum wanted an extensible language, influenced by ABC, that could reach those interfaces rather than rely only on shell commands.",
@@ -500,7 +595,12 @@
     "topic": "c",
     "category": "C / hardware changes the language",
     "question": "According to Ritchie, what hardware characteristic of the PDP-11 exposed weaknesses in B's word-based model?",
-    "options": { "A": "A requirement that every program use a garbage collector", "B": "Byte addressing, which made character handling and word-index pointers awkward", "C": "An inability to represent integer values", "D": "Hardware support for inheritance-based method dispatch" },
+    "options": {
+      "A": "A requirement that every program use a garbage collector",
+      "B": "Byte addressing, which made character handling and word-index pointers awkward",
+      "C": "An inability to represent integer values",
+      "D": "Hardware support for inheritance-based method dispatch"
+    },
     "correct": "B",
     "hint": "B treated memory as cells, while the machine addressed smaller units.",
     "explanation": "B's cell model fit earlier word-addressed machines. On the byte-addressed PDP-11, characters were awkward and pointers represented as word indices required scaling. Ritchie added types and native-code compilation while evolving B toward C.",
@@ -512,7 +612,12 @@
     "topic": "c",
     "category": "C / arrays inside records",
     "question": "What representation problem does Ritchie describe as motivating C's conversion of array expressions into pointers?",
-    "options": { "A": "Arrays could contain only floating-point values", "B": "Array elements were stored only in processor registers", "C": "Arrays embedded in structures had no convenient place for a separately initialized base pointer", "D": "The machine required every array to have a distinct runtime class" },
+    "options": {
+      "A": "Arrays could contain only floating-point values",
+      "B": "Array elements were stored only in processor registers",
+      "C": "Arrays embedded in structures had no convenient place for a separately initialized base pointer",
+      "D": "The machine required every array to have a distinct runtime class"
+    },
     "correct": "C",
     "hint": "A structure needed to describe actual stored bits, such as a directory entry.",
     "explanation": "Earlier array semantics materialized a pointer cell. Adding arrays inside structures raised storage and initialization problems. Ritchie instead generated the pointer when an array appeared in an expression. Modern C retains array-to-pointer conversion with specified exceptions; arrays and pointers are still distinct types.",
@@ -524,7 +629,12 @@
     "topic": "c",
     "category": "C / compatibility leaves a mark",
     "question": "Why does Ritchie say C kept bitwise & at lower precedence than == when separate logical operators were introduced?",
-    "options": { "A": "To ease migration from B's context-dependent use of &", "B": "To guarantee that every expression maps to one machine instruction", "C": "To prevent bitwise operations from being used in conditions", "D": "To match a mandatory floating-point hardware convention" },
+    "options": {
+      "A": "To ease migration from B's context-dependent use of &",
+      "B": "To guarantee that every expression maps to one machine instruction",
+      "C": "To prevent bitwise operations from being used in conditions",
+      "D": "To match a mandatory floating-point hardware convention"
+    },
     "correct": "A",
     "hint": "An awkward rule survived a transition for existing programs.",
     "explanation": "B gave & short-circuit meaning in truth-value contexts. When C introduced separate logical operators, preserving the old relative precedence eased conversion. Ritchie later regarded moving the precedence as preferable, but compatibility helped keep the rule.",
@@ -536,7 +646,12 @@
     "topic": "c",
     "category": "C / declaration design",
     "question": "What principle does Ritchie describe behind C's declaration syntax?",
-    "options": { "A": "Declarations always list types from largest to smallest", "B": "Declarations avoid all expression operators", "C": "Declarations must match the order of fields in memory", "D": "Declarations mirror expressions used to access the declared objects" },
+    "options": {
+      "A": "Declarations always list types from largest to smallest",
+      "B": "Declarations avoid all expression operators",
+      "C": "Declarations must match the order of fields in memory",
+      "D": "Declarations mirror expressions used to access the declared objects"
+    },
     "correct": "D",
     "hint": "Consider why int *pointer connects to the expression *pointer.",
     "explanation": "Ritchie describes declaration syntax as mirroring expression syntax. For example, declaring int *pointer indicates that dereferencing pointer yields an int. Parentheses and composition make more elaborate declarations harder to read, but the unifying principle remains.",
@@ -548,7 +663,12 @@
     "topic": "security",
     "category": "Trusting Trust / beyond source review",
     "question": "What does Thompson's compiler attack demonstrate about reviewing apparently clean source code?",
-    "options": { "A": "Clean source guarantees an unmodified executable", "B": "A compromised compiler can insert malicious code during the build", "C": "A compiler can change only comments, not executable behavior", "D": "Source review is useful only for interpreted languages" },
+    "options": {
+      "A": "Clean source guarantees an unmodified executable",
+      "B": "A compromised compiler can insert malicious code during the build",
+      "C": "A compiler can change only comments, not executable behavior",
+      "D": "Source review is useful only for interpreted languages"
+    },
     "correct": "B",
     "hint": "The build tool is part of the trust boundary.",
     "explanation": "In Reflections on Trusting Trust, a modified compiler recognizes selected source and inserts an attack. Reviewing the target source alone therefore cannot establish the behavior of the resulting executable when the toolchain is compromised. This does not imply that independent verification is impossible.",
@@ -560,7 +680,12 @@
     "topic": "security",
     "category": "Trusting Trust / a persistent compiler",
     "question": "How does Thompson's attack survive rebuilding the compiler from source that no longer contains the attack?",
-    "options": { "A": "It relies on malicious instructions hidden in source comments", "B": "It changes the processor's instruction set permanently", "C": "The infected compiler recognizes compiler source and reinserts the attack into its successor", "D": "Every clean compiler automatically downloads the original attack" },
+    "options": {
+      "A": "It relies on malicious instructions hidden in source comments",
+      "B": "It changes the processor's instruction set permanently",
+      "C": "The infected compiler recognizes compiler source and reinserts the attack into its successor",
+      "D": "Every clean compiler automatically downloads the original attack"
+    },
     "correct": "C",
     "hint": "The tool used to rebuild the tool is itself infected.",
     "explanation": "Thompson describes a compiler that inserts a backdoor into login code and also reproduces the compiler modifications when compiling its own source. Removing the malicious source changes is insufficient if the rebuilding compiler binary remains compromised.",
@@ -572,7 +697,12 @@
     "topic": "distributed-systems",
     "category": "Distributed events / causal order",
     "question": "Does the causal happens-before relation necessarily order every pair of events in a distributed system?",
-    "options": { "A": "No; causally unrelated events can remain unordered in a partial order", "B": "Yes; every event must have a unique physical timestamp", "C": "Yes; network arrival order is a universal ordering", "D": "No; the relation orders no events on different processes" },
+    "options": {
+      "A": "No; causally unrelated events can remain unordered in a partial order",
+      "B": "Yes; every event must have a unique physical timestamp",
+      "C": "Yes; network arrival order is a universal ordering",
+      "D": "No; the relation orders no events on different processes"
+    },
     "correct": "A",
     "hint": "Two events can have no causal path connecting them.",
     "explanation": "Lamport explains causal order as a partial order. A total ordering can be constructed consistently with it, but that does not turn an arbitrary ordering of concurrent events into a causal relationship. Logical timestamps are not automatically wall-clock time.",
@@ -584,7 +714,12 @@
     "topic": "distributed-systems",
     "category": "Logical clocks / the bigger idea",
     "question": "In his retrospective, what broader implementation idea does Lamport emphasize in Time, Clocks and the Ordering of Events?",
-    "options": { "A": "Eliminating all communication between replicas", "B": "Proving physical clocks always show exactly the same time", "C": "Replacing all distributed state with random sampling", "D": "Implementing distributed state machines through a consistent ordering of requests" },
+    "options": {
+      "A": "Eliminating all communication between replicas",
+      "B": "Proving physical clocks always show exactly the same time",
+      "C": "Replacing all distributed state with random sampling",
+      "D": "Implementing distributed state machines through a consistent ordering of requests"
+    },
     "correct": "D",
     "hint": "Think about replicas applying commands in an agreed order.",
     "explanation": "Lamport says the ability to totally order requests led to implementing a sequential state machine across a network of processors. He emphasizes that the paper is about more than clocks or its mutual-exclusion example. The original algorithm's failure assumptions must not be confused with later fault-tolerant consensus protocols.",
@@ -596,7 +731,12 @@
     "topic": "distributed-systems",
     "category": "Paxos / an unexpected result",
     "question": "According to Lamport, what was he initially trying to do when he discovered Paxos?",
-    "options": { "A": "Create a replacement for TCP congestion control", "B": "Prove the Echo file system's claimed fault-tolerance guarantees impossible", "C": "Translate a Greek voting algorithm into C", "D": "Remove the need for persistent storage from every database" },
+    "options": {
+      "A": "Create a replacement for TCP congestion control",
+      "B": "Prove the Echo file system's claimed fault-tolerance guarantees impossible",
+      "C": "Translate a Greek voting algorithm into C",
+      "D": "Remove the need for persistent storage from every database"
+    },
     "correct": "B",
     "hint": "He set out to disprove a claim and found a construction instead.",
     "explanation": "Lamport describes investigating Echo's claims about maintaining consistency despite failures and making progress with a working majority. He tried to prove the claims impossible, but instead discovered Paxos. The Greek parliament was the presentation metaphor, not an ancient algorithm he translated.",
@@ -608,7 +748,12 @@
     "topic": "distributed-systems",
     "category": "Byzantine agreement / real systems",
     "question": "Which application motivated the SIFT project associated with early work on Byzantine agreement?",
-    "options": { "A": "Rendering historical maps of Constantinople", "B": "Reconciling edits in an online encyclopedia", "C": "Fault-tolerant computers for aircraft control", "D": "Ranking results in a web search engine" },
+    "options": {
+      "A": "Rendering historical maps of Constantinople",
+      "B": "Reconciling edits in an online encyclopedia",
+      "C": "Fault-tolerant computers for aircraft control",
+      "D": "Ranking results in a web search engine"
+    },
     "correct": "C",
     "hint": "Inconsistent information from a faulty processor could have serious consequences.",
     "explanation": "Lamport identifies SIFT as NASA-funded research into reliable aircraft-control computers. He connects that work to the formulation and solutions of the Byzantine agreement problem. The generals story made the underlying fault model memorable; it was not the original application.",
@@ -620,7 +765,12 @@
     "topic": "concurrency",
     "category": "Bakery algorithm / an unusual model",
     "question": "In the original bakery algorithm's abstract single-writer register model, what can a read overlapping a write return without breaking mutual exclusion?",
-    "options": { "A": "An arbitrary value in the register's value domain", "B": "Only the value from before the write", "C": "Only the value from after the write", "D": "Only the old or new value, because all reads must be atomic" },
+    "options": {
+      "A": "An arbitrary value in the register's value domain",
+      "B": "Only the value from before the write",
+      "C": "Only the value from after the write",
+      "D": "Only the old or new value, because all reads must be atomic"
+    },
     "correct": "A",
     "hint": "Lamport highlights a stronger result than the simplified atomic-register versions.",
     "explanation": "Lamport emphasizes that his original algorithm tolerates arbitrary values from reads overlapping writes in its register model, with each location written by one process. Non-overlapping reads still have specified behavior. This mathematical model does not make unsynchronized non-atomic C++ accesses legal; those can have undefined behavior.",
@@ -632,7 +782,12 @@
     "topic": "analytical-engine",
     "category": "Analytical Engine / instructions on cards",
     "question": "Which textile-machine mechanism inspired the proposed Analytical Engine's instruction cards?",
-    "options": { "A": "A spinning wheel's flywheel", "B": "A steam loom's pressure regulator", "C": "A shuttle's automatic thread tensioner", "D": "Jacquard loom punched cards" },
+    "options": {
+      "A": "A spinning wheel's flywheel",
+      "B": "A steam loom's pressure regulator",
+      "C": "A shuttle's automatic thread tensioner",
+      "D": "Jacquard loom punched cards"
+    },
     "correct": "D",
     "hint": "A pattern could be encoded separately from the mechanism executing it.",
     "explanation": "Menabrea's account and Lovelace's notes discuss adapting Jacquard's punched-card principle to control the Analytical Engine's operations. It is a connection between textile automation and programmable operations, not evidence that the proposed engine was completed.",

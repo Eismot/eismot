@@ -1,11 +1,12 @@
 # Software Engineering Trivia
 
 <!-- trivia:start -->
-  <a href="millionaire/q01.md"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/arcade-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/arcade.svg"><img src="assets/arcade.svg" alt="Run 01. Question 1 of 15. Playing for $100. Bank $0. Safety net $0."></picture></a>
 
-  > <picture><source media="(prefers-color-scheme: dark)" srcset="assets/trivia-question-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/trivia-question.svg"><img src="assets/trivia-question.svg" alt="Question"></picture>
-  >
-  > **<samp>Which Git command reports staged changes, unstaged changes, and untracked files?</samp>**
+<a href="millionaire/q01.md"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/arcade-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/arcade.svg"><img src="assets/arcade.svg" alt="Run 01. Question 1 of 15. Playing for $100. Bank $0. Safety net $0."></picture></a>
+
+> <picture><source media="(prefers-color-scheme: dark)" srcset="assets/trivia-question-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/trivia-question.svg"><img src="assets/trivia-question.svg" alt="Question"></picture>
+>
+> **<samp>Which Git command reports staged changes, unstaged changes, and untracked files?</samp>**
 
   <table width="100%">
 <tr>
@@ -29,17 +30,18 @@
   <details>
   <summary><samp>[+] Answer & source (spoiler)</samp></summary>
 
-  **C.** git status
+**C.** git status
 
-  git status reports the state of the working tree and index, including untracked files that are not ignored. git log shows history; git show inspects objects; git branch lists or manages branches.
+git status reports the state of the working tree and index, including untracked files that are not ignored. git log shows history; git show inspects objects; git branch lists or manages branches.
 
-  [Source](https://git-scm.com/docs/git-status)
+[Source](https://git-scm.com/docs/git-status)
 
   </details>
 
-  ---
+---
 
-  [Run 01](millionaire/q01.md) / [Run 02](millionaire/history/q01.md) / [Run 03](millionaire/runs/03/q01.md) / [Run 04](millionaire/runs/04/q01.md) / [Run 05](millionaire/runs/05/q01.md)
+[Run 01](millionaire/q01.md) / [Run 02](millionaire/history/q01.md) / [Run 03](millionaire/runs/03/q01.md) / [Run 04](millionaire/runs/04/q01.md) / [Run 05](millionaire/runs/05/q01.md)
+
   <!-- trivia:end -->
 
 <details>
