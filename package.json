@@ -1,0 +1,16 @@
+{
+  "name": "software-engineering-trivia",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node scripts/build-millionaire.mjs",
+    "build:history": "node scripts/build-millionaire.mjs --pack=history",
+    "check": "node scripts/build-millionaire.mjs --check",
+    "check:history": "node scripts/build-millionaire.mjs --pack=history --check",
+    "test": "node --test scripts/trivia.test.mjs"
+  }
+}
