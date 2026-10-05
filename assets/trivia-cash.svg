@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="160" height="56" viewBox="0 0 160 56" role="img" aria-label="[$]">
-  <path fill="#111714" d="M0 0h160v56H0z"/>
-  <g font-family="Consolas, 'Liberation Mono', monospace" fill="#9be9a8">
+  <g font-family="Consolas, 'Liberation Mono', monospace" fill="#116329">
     <g font-size="14" fill-opacity=".6">
       <text x="8" y="14" textLength="144" lengthAdjust="spacingAndGlyphs">┌────────────────┐</text>
       <text x="8" y="34">│</text>

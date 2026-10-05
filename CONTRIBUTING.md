@@ -53,6 +53,18 @@ question rather than appending a sixteenth.
 - Match the question's claim to the source; distinguish proposals, implementation,
   public releases, and later retrospectives. Avoid unsupported "first ever" claims.
 
+## Theme artwork
+
+Terminal images have transparent backgrounds and light/dark palettes in
+[scripts/lib/trivia.mjs](scripts/lib/trivia.mjs). GitHub selects the appropriate
+variant through `<picture>` sources; other renderers can use the light fallback.
+The unsuffixed SVG files are light variants; `-dark.svg` files are dark variants.
+
+Edit the shared [header template](millionaire/templates/header.svg), score-strip
+template, or badge generator rather than generated images. Regenerate both packs
+after any palette or template change. Keep backgrounds transparent to support
+GitHub's other background colors, including dimmed themes.
+
 ## Build and verify
 
 Run from the repository root after editing either bank or a shared template:

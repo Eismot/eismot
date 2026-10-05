@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="192" viewBox="0 0 720 192" role="img" aria-labelledby="title desc">
+  <title id="title">Computer and language history: question 1 of 15</title>
+  <desc id="desc">Playing for $100. Bank $0. Safety net $0.</desc>
+  <defs>
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path stroke="#9be9a8" stroke-opacity=".035" d="M0 3.5H4"/>
+    </pattern>
+  </defs>
+  <g font-family="Consolas, 'Liberation Mono', monospace">
+    <g font-size="16" fill="#9be9a8" fill-opacity=".65">
+      <text x="16" y="24" textLength="688" lengthAdjust="spacingAndGlyphs">┌─ TRIVIA.EXE ────────────────────────────────────────────────────────┐</text>
+      <text x="16" y="178" textLength="688" lengthAdjust="spacingAndGlyphs">└────────────────────────────────────────────────────────────────────┘</text>
+    </g>
+    <path stroke="#9be9a8" stroke-opacity=".4" d="M21 32V158M699 32V158"/>
+    <text x="40" y="58" font-size="21" fill="#9be9a8">&gt; COMPUTER &amp; LANGUAGE HISTORY</text>
+    <text x="680" y="58" font-size="19" fill="#f3d889" text-anchor="end">[01/15]</text>
+    <text x="40" y="88" font-size="14" fill="#9be9a8" fill-opacity=".55">├─────────────────────────────────────────────────────────────────┤</text>
+    <g font-size="13" fill="#a2b6a8">
+      <text x="40" y="115">PRIZE</text>
+      <text x="280" y="115">BANK</text>
+      <text x="500" y="115">SAFETY NET</text>
+    </g>
+    <text x="40" y="146" font-size="26" fill="#f3d889">$100</text>
+    <g font-size="24" fill="#9be9a8">
+      <text x="280" y="146">$0</text>
+      <text x="500" y="146">$0</text>
+    </g>
+    <text x="648" y="146" font-size="24" fill="#9be9a8">▌</text>
+  </g>
+  <path fill="url(#scanlines)" d="M0 0h720v192H0z"/>
+</svg>

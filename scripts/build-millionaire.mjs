@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { escapeHtml, fiftyFifty, letters, money, questionFile, renderAnswers, renderJokers, renderTemplate, safetyNet, validateOptions } from './lib/trivia.mjs';
+import { escapeHtml, fiftyFifty, letters, money, questionFile, renderAnswers, renderJokers, renderTemplate, safetyNet, themedImage, themePath, themes, validateOptions } from './lib/trivia.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const argumentsList = process.argv.slice(2);
@@ -16,6 +16,7 @@ const questions = JSON.parse(await readFile(path.join(gameDirectory, 'questions.
 const questionTemplate = (await readFile(path.join(sharedDirectory, 'templates/question.md.tmpl'), 'utf8'))
   .replaceAll('../README.md', arcadePath);
 const hudTemplate = await readFile(path.join(sharedDirectory, 'templates/hud.svg'), 'utf8');
+const headerTemplate = await readFile(path.join(sharedDirectory, 'templates/header.svg'), 'utf8');
 const checkOnly = process.argv.includes('--check');
 
 const referenceLabel = 'Source';
@@ -24,18 +25,21 @@ const outputs = new Map();
 const assetPrefix = historyPack ? '../../assets/' : '../assets/';
 
 const badges = new Map();
-for (const [name, label, color] of [
-  ...letters.map(letter => [letter.toLowerCase(), `> ${letter}`, '#9be9a8']),
-  ['question', '> QUESTION', '#f3d889'],
-  ['fifty', '50:50', '#9be9a8'],
-  ['hint', '[?]', '#f3d889'],
-  ['cash', '[$]', '#9be9a8'],
-]) {
-  const width = ['fifty', 'hint', 'cash'].includes(name) ? 160 : 320;
-  const fontSize = name === 'question' ? 20 : 26;
-  const border = '─'.repeat(width === 160 ? 16 : 36);
-  badges.set(`assets/trivia-${name}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="56" viewBox="0 0 ${width} 56" role="img" aria-label="${escapeHtml(label)}">
-  <path fill="#111714" d="M0 0h${width}v56H0z"/>
+for (const [theme, palette] of Object.entries(themes)) {
+  badges.set(themePath('assets/arcade.svg', theme), renderTemplate(headerTemplate, {
+    GREEN: palette.green, AMBER: palette.amber, MUTED: palette.muted,
+  }, ['GREEN', 'AMBER', 'MUTED']));
+  for (const [name, label, color] of [
+    ...letters.map(letter => [letter.toLowerCase(), `> ${letter}`, palette.green]),
+    ['question', '> QUESTION', palette.amber],
+    ['fifty', '50:50', palette.green],
+    ['hint', '[?]', palette.amber],
+    ['cash', '[$]', palette.green],
+  ]) {
+    const width = ['fifty', 'hint', 'cash'].includes(name) ? 160 : 320;
+    const fontSize = name === 'question' ? 20 : 26;
+    const border = '─'.repeat(width === 160 ? 16 : 36);
+    badges.set(themePath(`assets/trivia-${name}.svg`, theme), `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="56" viewBox="0 0 ${width} 56" role="img" aria-label="${escapeHtml(label)}">
   <g font-family="Consolas, 'Liberation Mono', monospace" fill="${color}">
     <g font-size="14" fill-opacity=".6">
       <text x="8" y="14" textLength="${width - 16}" lengthAdjust="spacingAndGlyphs">┌${border}┐</text>
@@ -47,6 +51,7 @@ for (const [name, label, color] of [
     <text x="${width - 34}" y="36" font-size="20" fill-opacity=".65">▌</text>
   </g>
 </svg>\n`);
+  }
 }
 
 assert.equal(questions.length, 15, 'The game must have exactly 15 rounds');
@@ -81,6 +86,7 @@ for (const [index, question] of questions.entries()) {
   const values = {
     REFERENCE_LABEL: referenceLabel,
     HUD_PATH: hudPath,
+    HUD: themedImage(hudPath, `Round ${String(index + 1).padStart(2, '0')} of 15. Playing for ${money(question.prize)}. Bank ${money(current)}. Safety net ${money(floor)}.`),
     ROUND: String(index + 1).padStart(2, '0'),
     PRIZE: money(question.prize),
     BANK: money(current),
@@ -88,7 +94,7 @@ for (const [index, question] of questions.entries()) {
     COMPLETED: index,
     CHECKPOINT: checkpoint,
     CATEGORY: question.category,
-    QUESTION_BADGE: `${assetPrefix}trivia-question.svg`,
+    QUESTION_BADGE: themedImage(`${assetPrefix}trivia-question.svg`, 'Question'),
     QUESTION: escapeHtml(question.question),
     ANSWERS: answers,
     JOKERS: renderJokers(question, current, index, assetPrefix, arcadePath, 'q01.md'),
@@ -100,22 +106,26 @@ for (const [index, question] of questions.entries()) {
     EXPLANATION: question.explanation,
     REFERENCE: question.reference,
   };
-  const required = ['HUD_PATH', 'ROUND', 'PRIZE', 'BANK', 'SAFETY_NET', 'QUESTION', 'ANSWERS'];
+  const required = ['HUD', 'QUESTION_BADGE', 'QUESTION', 'ANSWERS', 'JOKERS'];
   const page = renderTemplate(questionTemplate, values, required);
   outputs.set(questionFile(index), page);
 
-  const progressLights = prizes.map((_, prizeIndex) => {
-    const color = prizeIndex < index ? '#9be9a8' : prizeIndex === index ? '#f3d889' : '#304637';
-    return `<path fill="${color}" d="M${32 + prizeIndex * 44} 88h40v4h-40z"/>`;
-  }).join('\n  ');
-  outputs.set(hudPath, renderTemplate(hudTemplate, {
-    ROUND: values.ROUND,
-    PRIZE: values.PRIZE,
-    BANK: values.BANK,
-    SAFETY_NET: values.SAFETY_NET,
-    COMPLETED: values.COMPLETED,
-    PROGRESS_LIGHTS: progressLights,
-  }, ['ROUND', 'PRIZE', 'BANK', 'SAFETY_NET', 'PROGRESS_LIGHTS']));
+  for (const [theme, palette] of Object.entries(themes)) {
+    const progressLights = prizes.map((_, prizeIndex) => {
+      const color = prizeIndex < index ? palette.green : prizeIndex === index ? palette.amber : palette.inactive;
+      return `<path fill="${color}" d="M${32 + prizeIndex * 44} 88h40v4h-40z"/>`;
+    }).join('\n  ');
+    outputs.set(themePath(hudPath, theme), renderTemplate(hudTemplate, {
+      GREEN: palette.green,
+      MUTED: palette.muted,
+      ROUND: values.ROUND,
+      PRIZE: values.PRIZE,
+      BANK: values.BANK,
+      SAFETY_NET: values.SAFETY_NET,
+      COMPLETED: values.COMPLETED,
+      PROGRESS_LIGHTS: progressLights,
+    }, ['ROUND', 'PRIZE', 'BANK', 'SAFETY_NET', 'PROGRESS_LIGHTS', 'GREEN', 'MUTED']));
+  }
 
   const answerLinks = [...answers.matchAll(/href="([^"]+)"/g)].map(match => match[1]);
   assert.equal(answerLinks.length, 4);
@@ -126,6 +136,7 @@ for (const [index, question] of questions.entries()) {
   assert(page.includes(values.JOKERS), 'Question template must preserve working jokers');
   assert.equal((answers.match(/<tr>/g) ?? []).length, 2, 'Answers must have two rows');
   assert.equal((answers.match(/<td /g) ?? []).length, 4, 'Answers must have four cells');
+  assert.equal((page.match(/<picture>/g) ?? []).length, 9, 'Every terminal image must support both themes');
   assert.equal((values.JOKERS.match(/<details>/g) ?? []).length, 3, 'Three jokers required');
   for (const letter of letters) {
     assert.equal(answers.split(`alt="${letter}"`).length - 1, 1, `Answer selector ${letter} must appear once`);
@@ -187,9 +198,9 @@ if (historyPack) {
   const openingAnswers = renderAnswers(openingQuestion, letters.map(letter =>
     `millionaire/history/${letter === openingQuestion.correct ? 'q02.md' : 'game-over-0.md'}`), 'assets/');
   const opening = `<!-- trivia:start -->
-[![Computer and language history. Question 1 of 15. Playing for $100. Bank $0. Safety net $0.](assets/arcade.svg)](millionaire/history/q01.md)
+<a href="millionaire/history/q01.md">${themedImage('assets/arcade.svg', 'Computer and language history. Question 1 of 15. Playing for $100. Bank $0. Safety net $0.')}</a>
 
-> ![Question](assets/trivia-question.svg)
+> ${themedImage('assets/trivia-question.svg', 'Question')}
 >
 > **<samp>${escapeHtml(openingQuestion.question)}</samp>**
 
@@ -230,7 +241,7 @@ let localLinks = 0;
 for (const [filename, content] of pages) {
   const targets = [
     ...[...content.matchAll(/\]\(\s*([^\s)]+)\s*\)/g)].map(match => match[1]),
-    ...[...content.matchAll(/(?:href|src)="([^"]+)"/g)].map(match => match[1]),
+    ...[...content.matchAll(/(?:href|src|srcset)="([^"]+)"/g)].map(match => match[1]),
   ];
   for (const target of targets) {
     if (/^https:\/\//.test(target)) continue;
