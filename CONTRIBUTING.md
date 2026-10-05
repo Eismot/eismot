@@ -1,7 +1,9 @@
 # Contributing
 
 The game runs entirely through GitHub Markdown links. Node.js 18 or newer is
-needed only to generate and check the pages. No package installation is required.
+needed only to generate and check the pages; those commands need no packages.
+For the additional CI safety and Markdown checks, use Node.js 24 and install the
+locked development tools with `npm ci --ignore-scripts`.
 
 ## Repository layout
 
@@ -113,3 +115,76 @@ Use the all-run commands after shared changes and before publishing.
 For a local visual check, open the README or a round in VS Code's Markdown preview.
 GitHub strips custom CSS, so verify significant layout changes on GitHub as well.
 Gameplay is honor-system: answers, hints, and navigation are public, not private state.
+
+## Continuous integration
+
+[Validate Trivia](.github/workflows/ci.yml) runs on pull requests, pushes to main,
+and manual dispatch. It checks:
+
+- Rules and rendering on Node 18, 22, and 24. Node 18 is EOL and tested only to
+  preserve the documented generation minimum; use Node 24 for development.
+- Exact generated pages and artwork, full pool coverage, tiers, answer routes,
+  safety nets, and local image/link targets.
+- Offline repository-wide Markdown/HTML links and local anchors through Lychee.
+- All Markdown files, with the existing native-HTML allowlist. MD036 is disabled
+  because standalone emphasized prize/checkpoint labels are intentional game UI.
+- Well-formed generated SVGs with accessible names, dimensions, local paint IDs,
+  and an allowlist of static elements and attributes. Scripts, event handlers,
+  embedded HTML, stylesheets, external resources, and declarations are rejected.
+- Parsed workflow YAML: immutable action pins, read-only tokens, hosted runners,
+  bounded timeouts, no saved checkout credentials, and no privileged triggers.
+- Public HTTPS source URLs without credentials, plus manifest seed and opening run.
+- Locked development dependencies, with lifecycle scripts disabled and a failing
+  audit for moderate-or-higher known advisories.
+
+Run the extra deterministic checks locally with Node 24:
+
+```sh
+npm ci --ignore-scripts
+npm run test:ci
+npm run check:ci
+npm audit --audit-level=moderate
+```
+
+[Audit External Links](.github/workflows/links.yml) runs weekly on Monday at
+07:23 UTC or manually. It checks cited sources and documentation with TLS
+verification, HTTPS enforcement, private-network exclusions, timeouts, retries,
+and limited concurrency. Failures appear in the job summary and a 14-day report
+artifact. It does not create issues or request write permissions, and is separate
+from required PR checks because external sites can block bots or be unavailable.
+The schedule becomes active only after the workflow reaches the default branch;
+GitHub may delay scheduled runs or disable them after repository inactivity.
+
+No broad domain exclusions, ignored 403/429 responses, accepted timeouts, or
+disabled certificate checks are configured. One transport exception covers only
+the Fourmilab sketch URL and its NoteA fragment: Lychee's HTTP/2 requests failed
+locally, while an HTTPS/HTTP/1.1 request returned 200. A separate failing curl GET
+checks that exact page with HTTP/1.1, retaining TLS verification and HTTPS-only
+redirects. The page is not left unchecked. Revisit the exception when Lychee or
+the source server changes.
+
+Investigate failures: a bot block is not proof of a dead page. Add narrowly
+scoped, documented exceptions only after manual verification. Reachability does
+not establish factual correctness. Remote page fragments and the truth of an
+answer still need editorial review.
+
+Actions use full commit SHAs. Lychee v0.23.0 is downloaded over HTTPS and its
+Linux archive SHA-256 is checked before extraction or execution. When updating
+Lychee, update both workflows' version and digest from the upstream release.
+[Dependabot](.github/dependabot.yml) proposes weekly action/tool updates; it does
+not auto-merge them. There are no runtime dependencies or player-side scripts.
+
+## GitHub settings
+
+These require repository-owner configuration; files cannot enable them:
+
+- Require the Validate Trivia jobs in a main-branch ruleset before merging.
+  Do not require the scheduled external-link workflow.
+- Enable secret scanning, push protection, Dependabot alerts/security updates,
+  and private vulnerability reporting where available.
+- Enable CodeQL default setup for JavaScript and GitHub Actions scanning where
+  available. The static-output checks are not a general JavaScript security audit.
+- Restrict Actions to approved actions with full SHA pins; keep the default
+  workflow token read-only and disable automatic PR approval by workflows.
+- Review workflow, lockfile, source-URL, and SVG-policy changes carefully. A
+  contributor can modify checks in the same PR, so CI cannot replace review.

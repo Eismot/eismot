@@ -1,0 +1,61 @@
+name: Audit External Links
+
+on:
+  schedule:
+    - cron: '23 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: external-links-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    name: External Sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Download and verify Lychee v0.23.0
+        run: |
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/lycheeverse/lychee/releases/download/lychee-v0.23.0/lychee-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$RUNNER_TEMP/lychee.tar.gz"
+          printf '%s  %s\n' 1fcb6ccf10d04c22b8c5873c5b9cb7be32ee7423e12169d6f1a79a6f1962ef81 "$RUNNER_TEMP/lychee.tar.gz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/lychee.tar.gz" -C "$RUNNER_TEMP"
+      - name: Audit HTTPS links with retries and private-network exclusions
+        run: |
+          mkdir -p lychee
+          "$RUNNER_TEMP/lychee" --no-progress --timeout 20 --max-retries 2 \
+            --retry-wait-time 3 --max-concurrency 4 --exclude-all-private --require-https \
+            --exclude '^https://www\.fourmilab\.ch/babbage/sketch\.html(?:#NoteA)?$' \
+            --format markdown --output lychee/external-links.md \
+            README.md CONTRIBUTING.md './millionaire/**/*.md'
+      - name: Check the Fourmilab primary source using HTTPS and HTTP/1.1
+        if: always()
+        run: |
+          curl --http1.1 --fail --location --max-time 30 --retry 2 \
+            --proto '=https' --proto-redir '=https' --tlsv1.2 \
+            --output "$RUNNER_TEMP/fourmilab.html" \
+            https://www.fourmilab.ch/babbage/sketch.html
+          mkdir -p lychee
+          printf '\nFourmilab sketch source: HTTPS GET succeeded using HTTP/1.1; checked separately because its HTTP/2 response fails in Lychee.\n' >> lychee/external-links.md
+      - name: Show external link report
+        if: always()
+        run: |
+          if [ -f lychee/external-links.md ]; then
+            cat lychee/external-links.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve the link report even when links fail
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: external-link-report
+          path: lychee/external-links.md
+          if-no-files-found: warn
+          retention-days: 14

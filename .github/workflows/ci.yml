@@ -1,0 +1,92 @@
+name: Validate Trivia
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trivia-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [18, 22, 24]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Test rules, selection, and rendering
+        run: npm test
+      - name: Verify generated pages, artwork, and local routes
+        run: npm run check
+      - name: Check commit whitespace
+        run: |
+          if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            git diff --check HEAD^ HEAD
+          else
+            git show --format= --check HEAD
+          fi
+
+  safety:
+    name: Content and Workflow Safety
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - name: Install locked tools without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Test rejection of unsafe content
+        run: npm run test:ci
+      - name: Validate SVGs, source URLs, workflows, and Markdown
+        run: npm run check:ci
+      - name: Audit development dependencies
+        run: npm audit --audit-level=moderate
+
+  local-links:
+    name: Local Links and Anchors
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Download and verify Lychee v0.23.0
+        run: |
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/lycheeverse/lychee/releases/download/lychee-v0.23.0/lychee-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$RUNNER_TEMP/lychee.tar.gz"
+          printf '%s  %s\n' 1fcb6ccf10d04c22b8c5873c5b9cb7be32ee7423e12169d6f1a79a6f1962ef81 "$RUNNER_TEMP/lychee.tar.gz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/lychee.tar.gz" -C "$RUNNER_TEMP"
+      - name: Check repository-wide links without network requests
+        run: |
+          mkdir -p lychee
+          "$RUNNER_TEMP/lychee" --offline --include-fragments --no-progress \
+            --format markdown --output lychee/local-links.md \
+            README.md CONTRIBUTING.md './millionaire/**/*.md'
+      - name: Show local link report
+        if: always()
+        run: |
+          if [ -f lychee/local-links.md ]; then
+            cat lychee/local-links.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+

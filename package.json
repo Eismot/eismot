@@ -12,6 +12,13 @@
     "check": "node scripts/build-millionaire.mjs --check",
     "check:history": "node scripts/build-millionaire.mjs --pack=history --check",
     "plan": "node scripts/build-millionaire.mjs --plan",
-    "test": "node --test scripts/trivia.test.mjs"
+    "test": "node --test scripts/trivia.test.mjs",
+    "test:ci": "node --test scripts/check-ci.test.mjs",
+    "check:ci": "node scripts/check-ci.mjs"
+  },
+  "devDependencies": {
+    "@xmldom/xmldom": "0.9.12",
+    "markdownlint": "0.41.1",
+    "yaml": "2.9.1"
   }
 }
