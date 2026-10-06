@@ -53,3 +53,5 @@ git status reports the state of the working tree and index, including untracked 
 - Virtual winnings. Honor-system play.
 
 </details>
+
+[![Validate Trivia CI](https://github.com/Eismot/eismot/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Eismot/eismot/actions/workflows/ci.yml?query=branch%3Amain)
