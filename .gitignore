@@ -1,3 +1,5 @@
 node_modules/
 lychee/
 .lycheecache
+/target/
+.rumdl_cache/

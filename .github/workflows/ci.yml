@@ -15,25 +15,30 @@ concurrency:
 
 jobs:
   validate:
-    name: Node ${{ matrix.node }}
+    name: Rust ${{ matrix.rust }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        node: [18, 22, 24]
+        rust: ['1.81.0', stable]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
           fetch-depth: 2
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: ${{ matrix.node }}
+      - name: Select Rust toolchain
+        run: |
+          rustup toolchain install "${{ matrix.rust }}" --profile minimal --component rustfmt --component clippy
+          rustup default "${{ matrix.rust }}"
+      - name: Check Rust formatting
+        run: cargo fmt --all -- --check
+      - name: Lint all targets without warnings
+        run: cargo clippy --locked --all-targets -- -D warnings
       - name: Test rules, selection, and rendering
-        run: npm test
+        run: cargo test --locked --all-targets
       - name: Verify generated pages, artwork, and local routes
-        run: npm run check
+        run: cargo run --locked -- check
       - name: Check commit whitespace
         run: |
           if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
@@ -45,22 +50,37 @@ jobs:
   safety:
     name: Content and Workflow Safety
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: 24
-      - name: Install locked tools without lifecycle scripts
-        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Select stable Rust
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
       - name: Test rejection of unsafe content
-        run: npm run test:ci
-      - name: Validate SVGs, source URLs, workflows, and Markdown
-        run: npm run check:ci
-      - name: Audit development dependencies
-        run: npm audit --audit-level=moderate
+        run: cargo test --locked safety
+      - name: Validate SVGs, source URLs, and workflows
+        run: cargo run --locked -- check-ci
+      - name: Download and verify rumdl v0.2.78
+        run: |
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/rvben/rumdl/releases/download/v0.2.78/rumdl-v0.2.78-x86_64-unknown-linux-gnu.tar.gz \
+            --output "$RUNNER_TEMP/rumdl.tar.gz"
+          printf '%s  %s\n' 5597ecab62c6cd50e63f85451fe4e763abc58195a3e7eff9186b6dfae890ca24 "$RUNNER_TEMP/rumdl.tar.gz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/rumdl.tar.gz" -C "$RUNNER_TEMP"
+      - name: Lint repository Markdown with the existing HTML allowlist
+        run: '"$RUNNER_TEMP/rumdl" check .'
+      - name: Download and verify cargo-audit v0.22.2
+        run: |
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            https://github.com/rustsec/rustsec/releases/download/cargo-audit/v0.22.2/cargo-audit-x86_64-unknown-linux-gnu-v0.22.2.tgz \
+            --output "$RUNNER_TEMP/cargo-audit.tgz"
+          printf '%s  %s\n' ab28a1bdb54db4d5d8ad5981cf1f959410370b3d28250dbd35f6a44248620e39 "$RUNNER_TEMP/cargo-audit.tgz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/cargo-audit.tgz" -C "$RUNNER_TEMP"
+      - name: Audit locked dependencies and deny advisory warnings
+        run: '"$RUNNER_TEMP/cargo-audit-x86_64-unknown-linux-gnu-v0.22.2/cargo-audit" audit --deny warnings'
 
   local-links:
     name: Local Links and Anchors

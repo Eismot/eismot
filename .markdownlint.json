@@ -1,5 +1,6 @@
 {
   "MD013": false,
+  "MD036": false,
   "MD033": {
     "allowed_elements": ["details", "summary", "table", "tr", "td", "a", "picture", "source", "img", "br", "p", "strong", "samp"]
   }

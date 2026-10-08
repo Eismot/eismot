@@ -1,9 +1,9 @@
 # Contributing
 
-The game runs entirely through GitHub Markdown links. Node.js 18 or newer is
-needed only to generate and check the pages; those commands need no packages.
-For the additional CI safety and Markdown checks, use Node.js 24 and install the
-locked development tools with `npm ci --ignore-scripts`.
+The game runs entirely through GitHub Markdown links. Rust 1.81 or newer and
+Cargo are needed only to generate and check the pages. Install Rust through
+[rustup](https://rustup.rs/). Node.js and npm are no longer required.
+Cargo.lock pins the generator's dependencies; use `--locked` for reproducible builds.
 
 ## Repository layout
 
@@ -11,9 +11,13 @@ locked development tools with `npm ci --ignore-scripts`.
 - [millionaire/questions.json](millionaire/questions.json): shared, sourced question pool.
 - [millionaire/runs.json](millionaire/runs.json): seed and pinned question IDs for every run.
 - [millionaire/templates](millionaire/templates): shared question and score-strip templates.
-- [scripts/build-millionaire.mjs](scripts/build-millionaire.mjs): bank validation, generation, and link checks.
-- [scripts/lib/trivia.mjs](scripts/lib/trivia.mjs): tiered selection, validation, game rules, and rendering.
-- [scripts/trivia.test.mjs](scripts/trivia.test.mjs): helper tests using Node's built-in test runner.
+- [Cargo.toml](Cargo.toml): Rust package, minimum toolchain, and dependencies.
+- [src/main.rs](src/main.rs): command-line interface and contextual error reporting.
+- [src/trivia.rs](src/trivia.rs): typed models, bank validation, seeded selection, and game rules.
+- [src/render.rs](src/render.rs): strict templates, themed images, answer grids, and jokers.
+- [src/build.rs](src/build.rs): generation, exact-output verification, and local link checks.
+- [src/safety.rs](src/safety.rs): parsed SVG, source URL, and workflow safety checks.
+- Tests live beside the Rust modules and use the published outputs as compatibility fixtures.
 - [assets](assets): header artwork and generated answer/joker badges.
 
 The round pages, end screens, score strips, and trivia badges are generated files.
@@ -70,7 +74,7 @@ Seeded selection happens at planning time, not when a player visits GitHub.
 The initial five routes cover all 47 questions. Questions can recur across runs,
 but never within one run. A complete manifest must expose every pool question.
 
-`npm run plan` prints a proposed manifest from the seed in runs.json without
+`cargo run --locked -- plan` prints a proposed manifest from the seed in runs.json without
 writing files. Ordering is independent of bank array order. The planner separates
 adjacent topics where possible; it cannot guarantee equal topic counts.
 
@@ -84,7 +88,7 @@ reject tier mismatches. Review planned manifests before publishing.
 ## Theme artwork
 
 Terminal images have transparent backgrounds and light/dark palettes in
-[scripts/lib/trivia.mjs](scripts/lib/trivia.mjs). GitHub selects the appropriate
+[src/render.rs](src/render.rs). GitHub selects the appropriate
 variant through `<picture>` sources; other renderers can use the light fallback.
 The unsuffixed SVG files are light variants; `-dark.svg` files are dark variants.
 
@@ -98,9 +102,9 @@ GitHub's other background colors, including dimmed themes.
 Run from the repository root after editing the pool, manifest, or a shared template:
 
 ```sh
-npm test
-npm run build
-npm run check
+cargo test --locked
+cargo run --locked -- build
+cargo run --locked -- check
 ```
 
 Build commands regenerate files. Check commands do not write files; they verify
@@ -108,9 +112,21 @@ exact output, full-bank coverage, tier order, answer routes, safety nets, layout
 structure, and local link targets.
 Include regenerated output with the source changes so the published game stays current.
 
-For one run, use `node scripts/build-millionaire.mjs --run=02` and add `--check`
-to verify it. The legacy build:history and check:history scripts select Run 02.
+For one run, use `cargo run --locked -- build --run=02` and replace `build` with
+`check` to verify it. The legacy `--pack=history` option also selects Run 02.
 Use the all-run commands after shared changes and before publishing.
+
+`plan` and `check-ci` do not accept run selection. All commands accept
+`--root=PATH` to target a repository instead of the current directory. The CLI
+prints contextual failures to stderr and exits nonzero; checks never write game files.
+Builds render and validate the complete selected output before writing any files.
+
+Answers are an enum, option objects have exactly four named fields, difficulty
+is a validated type, and a run contains a fixed 15-question array. Deserialization
+rejects unknown fields, invalid answers, invalid difficulty, and incomplete rounds.
+Bank and manifest validation checks IDs, distinct options, safe text, public HTTPS
+sources, tier order, repeated questions, opening Run 01, and full-pool coverage.
+Seeded planning preserves the original SHA-256 ranking and topic separation.
 
 For a local visual check, open the README or a round in VS Code's Markdown preview.
 GitHub strips custom CSS, so verify significant layout changes on GitHub as well.
@@ -121,12 +137,11 @@ Gameplay is honor-system: answers, hints, and navigation are public, not private
 [Validate Trivia](.github/workflows/ci.yml) runs on pull requests, pushes to main,
 and manual dispatch. It checks:
 
-- Rules and rendering on Node 18, 22, and 24. Node 18 is EOL and tested only to
-  preserve the documented generation minimum; use Node 24 for development.
+- Rust formatting, warning-free Clippy, and tests on Rust 1.81 and stable.
 - Exact generated pages and artwork, full pool coverage, tiers, answer routes,
   safety nets, and local image/link targets.
 - Offline repository-wide Markdown/HTML links and local anchors through Lychee.
-- All Markdown files, with the existing native-HTML allowlist. MD036 is disabled
+- All Markdown files through rumdl, with the existing native-HTML allowlist. MD036 is disabled
   because standalone emphasized prize/checkpoint labels are intentional game UI.
 - Well-formed generated SVGs with accessible names, dimensions, local paint IDs,
   and an allowlist of static elements and attributes. Scripts, event handlers,
@@ -134,17 +149,29 @@ and manual dispatch. It checks:
 - Parsed workflow YAML: immutable action pins, read-only tokens, hosted runners,
   bounded timeouts, no saved checkout credentials, and no privileged triggers.
 - Public HTTPS source URLs without credentials, plus manifest seed and opening run.
-- Locked development dependencies, with lifecycle scripts disabled and a failing
-  audit for moderate-or-higher known advisories.
+- Locked Cargo dependencies, with RustSec auditing that fails on known
+  vulnerabilities and advisory warnings. Review dependency build scripts as well
+  as source changes; Cargo may execute dependency build scripts during compilation.
 
-Run the extra deterministic checks locally with Node 24:
+Run the extra deterministic checks locally:
 
 ```sh
-npm ci --ignore-scripts
-npm run test:ci
-npm run check:ci
-npm audit --audit-level=moderate
+cargo fmt --all -- --check
+cargo clippy --locked --all-targets -- -D warnings
+cargo run --locked -- check-ci
+rumdl check .
+cargo audit --deny warnings
 ```
+
+The Markdown linter and dependency auditor are separate Rust tools, not generator
+dependencies. Install rumdl 0.2.78 from its
+[release binaries](https://github.com/rvben/rumdl/releases/tag/v0.2.78), or use
+`uvx --from rumdl==0.2.78 rumdl check .` to run its native binary in an isolated
+environment. rumdl reads the existing [.markdownlint.json](.markdownlint.json).
+Install the auditor using a current stable toolchain with
+`cargo +stable install --locked cargo-audit --version 0.22.2`.
+Installing these separate tools may require a newer Rust compiler than the
+generator's minimum; prebuilt rumdl binaries need no Rust toolchain.
 
 [Audit External Links](.github/workflows/links.yml) runs weekly on Monday at
 07:23 UTC or manually. It checks cited sources and documentation with TLS
@@ -171,6 +198,8 @@ answer still need editorial review.
 Actions use full commit SHAs. Lychee v0.23.0 is downloaded over HTTPS and its
 Linux archive SHA-256 is checked before extraction or execution. When updating
 Lychee, update both workflows' version and digest from the upstream release.
+rumdl v0.2.78 is also downloaded over HTTPS and verified against its pinned
+Linux archive SHA-256 before extraction or execution.
 [Dependabot](.github/dependabot.yml) proposes weekly action/tool updates; it does
 not auto-merge them. There are no runtime dependencies or player-side scripts.
 
@@ -182,8 +211,8 @@ These require repository-owner configuration; files cannot enable them:
   Do not require the scheduled external-link workflow.
 - Enable secret scanning, push protection, Dependabot alerts/security updates,
   and private vulnerability reporting where available.
-- Enable CodeQL default setup for JavaScript and GitHub Actions scanning where
-  available. The static-output checks are not a general JavaScript security audit.
+- Enable GitHub Actions security scanning where available. The static-output
+  checks are not a general Rust security audit; review Rust and dependency changes.
 - Restrict Actions to approved actions with full SHA pins; keep the default
   workflow token read-only and disable automatic PR approval by workflows.
 - Review workflow, lockfile, source-URL, and SVG-policy changes carefully. A
