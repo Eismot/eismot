@@ -55,3 +55,5 @@ git status reports the state of the working tree and index, including untracked 
 </details>
 
 [![Validate Trivia CI](https://github.com/Eismot/eismot/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Eismot/eismot/actions/workflows/ci.yml?query=branch%3Amain)
+[![MIT license](https://img.shields.io/badge/License-MIT-116329?logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![Minimum Rust version: 1.81](https://img.shields.io/badge/Rust-1.81%2B-000000?logo=rust&logoColor=white)](Cargo.toml)

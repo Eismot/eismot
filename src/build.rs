@@ -72,6 +72,8 @@ impl Generated {
         let question_template = read_text(&root.join("millionaire/templates/question.md.tmpl"))?;
         let hud_template = read_text(&root.join("millionaire/templates/hud.svg"))?;
         let header_template = read_text(&root.join("millionaire/templates/header.svg"))?;
+        let victory_artwork = read_text(&root.join("millionaire/templates/victory.svg"))?;
+        let victory_template = read_text(&root.join("millionaire/templates/victory.md.tmpl"))?;
         let mut generated = Self {
             files: BTreeMap::new(),
             runs: selected.len(),
@@ -91,6 +93,10 @@ impl Generated {
             generated.files.insert(
                 PathBuf::from(theme.path("assets/arcade.svg")),
                 render_template(&header_template, &values, &["GREEN", "AMBER", "MUTED"])?,
+            );
+            generated.files.insert(
+                PathBuf::from(theme.path("assets/trivia-victory.svg")),
+                render_template(&victory_artwork, &values, &["GREEN", "AMBER", "MUTED"])?,
             );
             for answer in Answer::ALL {
                 let name = answer.to_string().to_ascii_lowercase();
@@ -296,7 +302,37 @@ impl Generated {
                 generated.files.insert(directory.join(format!("game-over-{floor}.md")), format!("# Game over\n\n**Final prize: {}**\n\nGo back for the answer and source.\n\n[Restart](q01.md) / [Games]({arcade})\n", money(floor)));
             }
             let last = questions[14];
-            generated.files.insert(directory.join("win.md"), format!("# Complete\n\n**15 / 15. Final prize: $1,000,000**\n\n## Final answer: {} / {}\n\n{}\n\n[Source]({})\n\n[Restart](q01.md) / [Games]({arcade})\n", last.correct, &last.options[last.correct], last.explanation, last.reference));
+            let victory_values = BTreeMap::from([
+                (
+                    "ARTWORK",
+                    themed_image(
+                        &format!("{assets}trivia-victory.svg"),
+                        "Congratulations! 15 of 15 answered. Final prize: $1,000,000.",
+                        None,
+                        None,
+                    )?,
+                ),
+                ("ROOT", prefix.clone()),
+                ("CORRECT", last.correct.to_string()),
+                ("ANSWER", last.options[last.correct].to_owned()),
+                ("EXPLANATION", last.explanation.clone()),
+                ("REFERENCE", last.reference.clone()),
+            ]);
+            generated.files.insert(
+                directory.join("win.md"),
+                render_template(
+                    &victory_template,
+                    &victory_values,
+                    &[
+                        "ARTWORK",
+                        "ROOT",
+                        "CORRECT",
+                        "ANSWER",
+                        "EXPLANATION",
+                        "REFERENCE",
+                    ],
+                )?,
+            );
             generated.pages += 4;
             if run.id == "01" {
                 let first = questions[0];
@@ -503,17 +539,51 @@ mod tests {
         let source = Path::new(env!("CARGO_MANIFEST_DIR"));
         for filename in [
             "README.md",
+            "LICENSE",
+            "Cargo.toml",
             "millionaire/questions.json",
             "millionaire/runs.json",
             "millionaire/templates/question.md.tmpl",
             "millionaire/templates/hud.svg",
             "millionaire/templates/header.svg",
+            "millionaire/templates/victory.svg",
+            "millionaire/templates/victory.md.tmpl",
         ] {
             let target = directory.path().join(filename);
             fs::create_dir_all(target.parent().unwrap()).unwrap();
             fs::copy(source.join(filename), target).unwrap();
         }
         directory
+    }
+
+    #[test]
+    fn victory_uses_both_themes_and_preserves_sources_navigation_and_badges() {
+        let directory = fixture_directory();
+        let generated = Generated::create(directory.path(), None).unwrap();
+        let (bank, manifest) = load(directory.path()).unwrap();
+        for run in &manifest.runs {
+            let page = &generated.files[&PathBuf::from(run_directory(&run.id)).join("win.md")];
+            let last = bank
+                .questions()
+                .iter()
+                .find(|question| question.id == run.questions[14])
+                .unwrap();
+            assert!(page.starts_with("# Congratulations!"));
+            assert!(page.contains("trivia-victory.svg"));
+            assert!(page.contains("trivia-victory-dark.svg"));
+            assert!(page.contains(&last.reference));
+            assert!(page.contains(&last.explanation));
+            assert!(page.contains("[Play again](q01.md)"));
+            assert!(page.contains("LICENSE)"));
+            assert!(page.contains("Cargo.toml)"));
+        }
+        for theme in Theme::ALL {
+            assert!(generated
+                .files
+                .contains_key(&PathBuf::from(theme.path("assets/trivia-victory.svg"))));
+        }
+        generated.write(directory.path()).unwrap();
+        generated.verify(directory.path()).unwrap();
     }
 
     #[test]

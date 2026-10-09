@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="256" viewBox="0 0 720 256" role="img" aria-labelledby="title desc">
+  <title id="title">Congratulations! Software Engineering Trivia complete</title>
+  <desc id="desc">All 15 questions and five difficulty tiers cleared. Final prize: one million virtual dollars.</desc>
+  <g font-family="Consolas, 'Liberation Mono', monospace">
+    <path stroke="#9be9a8" stroke-opacity=".4" fill="none" d="M16 32V16H48M672 16H704V32M16 224V240H48M672 240H704V224"/>
+    <text x="40" y="52" font-size="21" fill="#9be9a8">&gt; RUN COMPLETE</text>
+    <text x="680" y="52" font-size="19" fill="#f3d889" text-anchor="end">[15/15]</text>
+    <path fill="#f3d889" d="M80 82H152V114C152 135 139 149 122 152V170H144V184H88V170H110V152C93 149 80 135 80 114ZM80 88H58V108C58 129 69 140 89 142V129C76 127 70 120 70 108V100H80ZM152 88H174V108C174 129 163 140 143 142V129C156 127 162 120 162 108V100H152Z"/>
+    <text x="422" y="104" font-size="18" fill="#9be9a8" text-anchor="middle">CONGRATULATIONS</text>
+    <text x="422" y="152" font-size="44" fill="#f3d889" text-anchor="middle">$1,000,000</text>
+    <text x="422" y="182" font-size="13" fill="#a2b6a8" text-anchor="middle">15 QUESTIONS. FIVE TIERS. CLEAN RUN.</text>
+    <path fill="#9be9a8" d="M40 210h32v8H40ZM82 210h32v8H82ZM124 210h32v8H124ZM166 210h32v8H166ZM208 210h32v8H208ZM250 210h32v8H250ZM292 210h32v8H292ZM334 210h32v8H334ZM376 210h32v8H376ZM418 210h32v8H418ZM460 210h32v8H460ZM502 210h32v8H502ZM544 210h32v8H544ZM586 210h32v8H586ZM628 210h32v8H628Z"/>
+  </g>
+</svg>
