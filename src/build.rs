@@ -568,7 +568,7 @@ mod tests {
                 .iter()
                 .find(|question| question.id == run.questions[14])
                 .unwrap();
-            assert!(page.starts_with("# Congratulations!"));
+            assert!(page.starts_with("# Congratulations\n"));
             assert!(page.contains("trivia-victory.svg"));
             assert!(page.contains("trivia-victory-dark.svg"));
             assert!(page.contains(&last.reference));

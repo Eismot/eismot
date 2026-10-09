@@ -1,4 +1,4 @@
-# Congratulations!
+# Congratulations
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="../../../assets/trivia-victory-dark.svg"><source media="(prefers-color-scheme: light)" srcset="../../../assets/trivia-victory.svg"><img src="../../../assets/trivia-victory.svg" alt="Congratulations! 15 of 15 answered. Final prize: $1,000,000."></picture>
 
